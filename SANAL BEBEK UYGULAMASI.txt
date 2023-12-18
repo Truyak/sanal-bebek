@@ -1,0 +1,52 @@
+SANAL BEBEK UYGULAMASI
+
+RAPOR
+-İKİ YANA YASLI
+-12 PUNTO TİMES NEW ROMAN
+-ARİAL | CALİBRİ
+-1.5 SATIR ARALIK
+-PDF
+
+İHTİYAÇLAR
+-TOKLUK
+-UYKU
+-SEVGİ
+-SOSYALLİK
+-SAĞLIK
+-EĞİTİM
+-HİJYEN
+-TUVALET
+-EĞLENCE
+-SU IHTIYACI
+
+BİRİMLER
+-YİYECEKLER
+-SEVGİ SEÇENEKLERİ
+-SOSYALLİK SEÇENEKLERİ
+-SAĞLIK İÇİN: DOKTOR, AİLE HEKİMİ, GOOGLE BAKMAK
+-EĞİTİM: ÖZEL, DEVLET, YAŞA GÖRE DE AİLE EĞİTİMİ
+-HİJYENDE EĞİTİME DAHİL HİJYEN EĞİTİMİ OLABİLİR BÖYLECE HER GÜN UYANDIĞINDA HİJYENİ 1 AZALMAZ
+-TUVALET EĞİTİMİ!
+-EĞLENCE SEÇENEKLERİ VE O GÜNKÜ İSTEĞİNE VE REDDEDİLME ORANINA GÖRE DEĞİŞİR
+
+FONKSİYONLAR
+1)YEMEK_YE ☑️
+2)UYU ☑️
+3)TEMIZLEN
+4)SEVIL
+5)SOSYALLES
+6)IYILES
+7)OKULA_GIT VEYA AILEYI_DINLE
+8)EGLEN
+9)ISTEK_URET(EGLENCE TURLERINDEN) ☑️
+10)TUVALETE_GIT ☑️
+11)DUS_AL
+11)MARKETE_GIT
+12)OLUM_KONTROL
+13)ihtVeDuzeyYazdir ☑️
+14)duzeyYenile ☑️
+
+
+    char *ihtiyaclar[20] = 	  {"TOKLUK", "UYKU", "SEVGI", "SOSYALLIK", "SAGLIK", "EGITIM", "HIJYEN", "TUVALET", "EGLENCE"};
+    char *istek_secenekleri[35] = {"Lunapark", "Aileyle Oyun", "Telefondan | Tabletten Oyun", "Arkadaslarla Disari Cikmak"};
+    char *yemek_secenekleri[30] = {"Meyve", "Iskender", "Makarna", "Salata", "Fast Food", "Kuru-Pilav", "Et, Tavuk veya Balik", "Sebze Yemegi"};
