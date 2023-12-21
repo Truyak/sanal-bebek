@@ -14,7 +14,7 @@ char *istek_secenekleri[35] = {"Lunapark", "Aileyle Oyun", "Telefondan | Tablett
 char *butun_yemekler[30] = {"Meyve", "Iskender", "Makarna", "Salata", "Fast Food", "Kuru-Pilav", "Et, Tavuk veya Balik", "Sebze Yemegi"};
 char *bes_canta[40];
 int bes_cantadaki_yiyecek_sayisi = 0;
-float saat = 8.30;//gun icindeki saat her gun sifirlaniyor
+float saat = 7.00;//gun icindeki saat her gun sifirlaniyor
 int buzdolabindaki_toplam_yemek;
 int susuz_gun = 0, uykusuz_gun = 0, tuvaletsiz_gun = 0, ac_gun = 0, tok_gun = 0;
 
@@ -270,7 +270,6 @@ int elemanCikar(char **dizi, char *eleman, int dizinin_eleman_sayisi){
 
 void duzeyYenile(char *ihtiyac, int miktar){
     i = 0;
-    int oldu_mu = 0;
     while(1){
         if(!strcmp(*(ihtiyaclar + i), ihtiyac)){
             *(duzeyler + i) += miktar;
@@ -423,7 +422,6 @@ void su_ic(){
 
 void uyu(int uyunan_saat_miktari){
     printf("Yataga Yattin, uyuyorsun...\n\n");
-    int i, sayac = 1;
     printf("SAAT: %.2f\n", saat);
     saatKontrol(uyunan_saat_miktari);
     printf("-------------Guncel Ihtiyaclar-------------\n\n");
@@ -432,7 +430,7 @@ void uyu(int uyunan_saat_miktari){
     duzeyYenile("UYKU", -5 * uyunan_saat_miktari / 4);
     duzeyYenile("HIJYEN", -2);
     duzeyYenile("SU IHTIYACI", 3);
-    duzeyYenile("SOSYALLIK", -1);
+    duzeyYenile("SOSYALLIK", -2);
     printf("Bakiye Yenilendi!");
     bakiye = 100;
 
@@ -504,15 +502,17 @@ void dolapKontrol(char **yemekler, int *toplamYemek, int *yemekSayilari, int yem
 }
 
 void iyiles(){
+    int secim, secim2;
+
     printf("Hangi iyilesme yontemini istiyorsunuz?\n");
-    printf("1)DOKTOR\n2)AILE HEKIMI\n3)GOOGLE'DAN ARASTIR\n\n");
-    int secim, secim2 = 0;
+    printf("1)Bir doktora gidin.\n2)Aile hekiminize gidin.\n3)Google'dan araştırın.\n\n");
     printf("Istediginiz yontemin numarasi: ");
     scanf("%d", &secim);
     getchar();
 
     switch(secim){
-        case 1: printf("Hangi doktora gitmek istiyorsunuz:\n1)Ozel\n2)Devlet\n\t: ");
+        case 1: printf("Hangi doktora gitmek istiyorsunuz:\n");
+                printf("1)Özel\n2)Devlet\n\t: ");
                 scanf("%d", &secim2);
                 getchar();
                 printf("-------------Guncel Ihtiyaclar-------------\n\n");
@@ -546,7 +546,7 @@ void iyiles(){
 }
 
 void markete_git(char **yemekler, int *toplamYemek, int *yemekSayilari){
-    printf("Marketteki Urunler\n\n");
+    printf("Marketteki Urunler\n------------------------------\n");
     printf("1)Meyve -> 10 TL\n");
     printf("2)Iskender -> 20 TL\n");
     printf("3)Makarna -> 20 TL\n");
@@ -558,10 +558,11 @@ void markete_git(char **yemekler, int *toplamYemek, int *yemekSayilari){
     int sec;
     int adet;
     int a=bakiye;
+    char yeni_sec;
     while (1) {
-        printf("Almak isteginiz urun numarasını girin: ");
+        printf("Almak istediginiz urun numarasini girin: ");
         scanf("%d",&sec);
-        printf("Kac adet alacaksınız: ");
+        printf("Kac adet alacaksiniz: ");
         scanf("%d",&adet);
         switch (sec) {
             case 1:
@@ -599,7 +600,16 @@ void markete_git(char **yemekler, int *toplamYemek, int *yemekSayilari){
         else{
             printf("Kalan bakiye: %d\n\n",bakiye);
             dolapKontrol(yemekler, toplamYemek, yemekSayilari, sec, adet);
-            break;
+            printf("Baska urun secmek istiyor musunuz(Y/N): ");
+            scanf("%c", &yeni_sec);
+            if(yeni_sec == 'Y' || yeni_sec == 'y'){
+                continue;
+            }
+            else{
+                printf("Eve Donuyorsunuz...\n\n\n");
+                break;
+            }
+
         }
 
     }
@@ -664,7 +674,7 @@ void bes_can_yazdir(){
 
 void okula_git(char **yemekler,int *toplamYemek, int *yemek_adetleri){
     float okul_gidis_saati = saat;
-    int yemek_indis;
+    int yemek_indis = 1;
     char yemek_tercih, bes_karar;
     printf("Beslenme Cantasi yapmak istiyor musun?(Y/N)\n");
     scanf("%c", &bes_karar);
@@ -675,17 +685,21 @@ void okula_git(char **yemekler,int *toplamYemek, int *yemek_adetleri){
         }
         printf("\n\n Iyi dersler...\n\n");
         Sleep(4000);
-        if(saat < 12){
+        if(saat < 12 && (bes_cantadaki_yiyecek_sayisi > 0)){
             saatKontrol(12-saat);
-            duzeyYenile("TOKLUK", (int)((12.0 - okul_gidis_saati)/3 * -1));
+            duzeyYenile("TOKLUK", (int)((12.0 - okul_gidis_saati)/2 * -1));
             printf("Ogle arasi oldu\n\nBeslenme cantandan bir seyler yemek istiyor musun(Y/N): ");
             scanf("%c", &yemek_tercih);
             getchar();
             if(yemek_tercih == 'Y' || yemek_tercih == 'y'){
-                bes_can_yazdir();
-                printf("bir secim yapiniz: ");
-                scanf("%d", &yemek_indis);
-                getchar();
+                do{
+                    if(yemek_indis <= 0 || yemek_indis >= bes_cantadaki_yiyecek_sayisi)
+                        printf("Hatali bir secim yaptiniz.(%d ile %d arasinda deger girmelisiniz!)\n", 1, bes_cantadaki_yiyecek_sayisi);
+                    bes_can_yazdir();
+                    printf("bir secim yapiniz: ");
+                    scanf("%d", &yemek_indis);
+                    getchar();
+                }while(yemek_indis <= 0 && yemek_indis >= bes_cantadaki_yiyecek_sayisi - 1);
                 printf("-------------Guncel Ihtiyaclar-------------\n\n");
                 yemek_duzey_yenile(bes_canta[yemek_indis - 1]);
                 bes_cantadaki_yiyecek_sayisi = elemanCikar(bes_canta, bes_canta[yemek_indis - 1], bes_cantadaki_yiyecek_sayisi);
@@ -701,9 +715,9 @@ void okula_git(char **yemekler,int *toplamYemek, int *yemek_adetleri){
         Sleep(1000);
         duzeyYenile("TOKLUK", (int)((17.0 - saat)/3 * -1));
         Sleep(1000);
-        duzeyYenile("SOSYALLIK", (int)(17- saat)/3 * 1);
+        duzeyYenile("SOSYALLIK", (int)(17- okul_gidis_saati)/2 * 1);
         Sleep(1000);
-        duzeyYenile("HIJYEN", (int)(17- saat)/3 * -1);
+        duzeyYenile("HIJYEN", (int)(17- okul_gidis_saati)/3 * -1);
         Sleep(1000);
         duzeyYenile("EGLENCE", 2);
         Sleep(1000);
